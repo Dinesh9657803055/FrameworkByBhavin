@@ -14,6 +14,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import com.openxcell.OnlineShopping.PageObjects.CheckoutPage;
 import com.openxcell.OnlineShopping.PageObjects.ForgotPasswordPage;
 import com.openxcell.OnlineShopping.PageObjects.LandingPage;
 import com.openxcell.OnlineShopping.PageObjects.MyCartPage;
@@ -34,6 +35,7 @@ public class OrderSubmitTest {
 	public ForgotPasswordPage forgotPasswordPage;
 	public ProductCataloguePage productCatalogue;
 	public MyCartPage myCartPage;
+	public CheckoutPage checkoutPage;
 
 	public void objectInitilization() {
 		landingPage = new LandingPage(driver);
@@ -79,12 +81,13 @@ public class OrderSubmitTest {
 	public void VerifyCart() {
 		Boolean match = myCartPage.VerifyProuctToDisplay(productName);
 		Assert.assertTrue(match);
+	 	checkoutPage = myCartPage.GoToCheckoutPage();
 	}
 
 	@Test(dependsOnMethods = "VerifyCart")
 	public void DoCheckout() throws InterruptedException {
 		
-		myCartPage.doCheckout("544", "Denish Knight", countryName);
+		checkoutPage.doCheckout("544", "Denish Knight", countryName);
 
 		/*Select drpMonth = new Select(
 		 * driver.findElement(By.xpath("//form/div/div[2]/div/select[@class='input ddl'][1]")));
@@ -95,7 +98,7 @@ public class OrderSubmitTest {
 		 * System.out.println("Year of Expiry date selected");
 		 */
 				
-		String ActualMessage = myCartPage.getThankYouMessage();
+		String ActualMessage = checkoutPage.getThankYouMessage();
 		Assert.assertTrue(ActualMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
 		Thread.sleep(2000);
 	}
