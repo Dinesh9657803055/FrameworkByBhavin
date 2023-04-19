@@ -30,18 +30,15 @@ public class OrderSubmitTest {
 	public String countryName = "Singapore";
 	
 	public LandingPage landingPage;
-	public ProductCataloguePage productCatalogue;
 	public SignupPage signupPage;
 	public ForgotPasswordPage forgotPasswordPage;
+	public ProductCataloguePage productCatalogue;
 	public MyCartPage myCartPage;
 
 	public void objectInitilization() {
-		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		landingPage = new LandingPage(driver);
 		signupPage = new SignupPage(driver);
 		forgotPasswordPage = new ForgotPasswordPage(driver);
-		productCatalogue = new ProductCataloguePage(driver);
-		myCartPage = new MyCartPage(driver);		
 	}
 	
 	@BeforeTest
@@ -51,6 +48,7 @@ public class OrderSubmitTest {
 		System.out.println("Browser launched");
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.manage().window().maximize();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		objectInitilization();
 	}
 
@@ -58,7 +56,7 @@ public class OrderSubmitTest {
 	public void VerifyAndSubmitLogin() {
 		landingPage.goTo();		
 		wait.until(ExpectedConditions.elementToBeClickable(landingPage.txtEmail));
-		landingPage.loginApplication("denish.knight@gmail.com", "Test@321");
+		productCatalogue = landingPage.loginApplication("denish.knight@gmail.com", "Test@321");
 		WebElement toastMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));		
 		Assert.assertTrue(toastMessage.isDisplayed(), "Login successfully!");
 	}
@@ -74,7 +72,7 @@ public class OrderSubmitTest {
 		productCatalogue.waitForLoadingToDisappear();
 		productCatalogue.waitForToastMessageToAppear();			
 		
-		landingPage.GoToCart();	
+	 	myCartPage = landingPage.GoToCart();	
 	}
 
 	@Test(dependsOnMethods = "GetProducesAndAddToCart")

@@ -33,10 +33,10 @@ public class LandingPage extends AbstractComponents{
 		PageFactory.initElements(driver, this);
 	}
 	
-	public void loginApplication(String email, String password) {
-		txtEmail.sendKeys(email);
-		txtPassword.sendKeys(password);
-		btnLogin.click();
+	public ProductCataloguePage loginApplication(String email, String password) {
+		setLoginEmail(email);
+		setLoginPassword(password);
+		return clickLoginButton();
 	}
 	
 	public void setLoginEmail(String email) {
@@ -49,9 +49,11 @@ public class LandingPage extends AbstractComponents{
 		System.out.println("Password entered");
 	}
 	
-	public void clickLoginButton() {
+	public ProductCataloguePage clickLoginButton() {
 		btnLogin.click();
 		System.out.println("Login button clicked");
+		ProductCataloguePage productCatalogue = new ProductCataloguePage(driver);
+		return productCatalogue;
 	}
 	
 	public void goTo() {
@@ -64,9 +66,12 @@ public class LandingPage extends AbstractComponents{
 		System.out.println("Register link clicked");
 	}
 	
-	public void GoToCart() {
+	public MyCartPage GoToCart() throws InterruptedException {
 		waitForElementToGetInteractable(linkCartMenu);
+		Thread.sleep(1000);
 		linkCartMenu.click();
 		System.out.println("Cart menu clicked");
+		MyCartPage myCartPage = new MyCartPage(driver);
+		return myCartPage;
 	}
 }
