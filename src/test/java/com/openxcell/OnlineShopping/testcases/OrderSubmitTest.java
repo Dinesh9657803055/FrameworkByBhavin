@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.openxcell.OnlineShopping.Base.BaseTest;
@@ -33,6 +34,33 @@ public class OrderSubmitTest extends BaseTest{
 	public void objectInitilization() {		
 		signupPage = new SignupPage(driver);
 		forgotPasswordPage = new ForgotPasswordPage(driver);
+	}
+	
+	@Test (dataProvider = "getData", groups = "smoke", enabled = true)
+	public void SubmitOrder(String email, String password, String productName, String countryName) throws InterruptedException {
+		productCatalogue = landingPage.loginApplication(email, password);
+		WebElement toastMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));		
+		Assert.assertTrue(toastMessage.isDisplayed(), "Login successfully!");
+		productCatalogue.getProductList();
+		productCatalogue.getProductByName(productName);
+		
+		productCatalogue.clickAddToCartButton(productName);
+		System.out.println("Item added in Cart");
+
+		productCatalogue.waitForLoadingToDisappear();
+		productCatalogue.waitForToastMessageToAppear();			
+		
+	 	myCartPage = landingPage.GoToCart();
+	 	Boolean match = myCartPage.VerifyProuctToDisplay(productName);
+		Assert.assertTrue(match);
+	 	checkoutPage = myCartPage.GoToCheckoutPage();
+	 	checkoutPage.doCheckout("544", "Denish Knight", countryName);
+	 	String ActualMessage = checkoutPage.getThankYouMessage();
+		Assert.assertTrue(ActualMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
+		System.out.println("Order Submitted successfully!");
+		Thread.sleep(2000);
+		MyOrderPage orderPage = landingPage.GoToMyOrders();
+		Assert.assertTrue(orderPage.VerifyOrderToDisplay(productName));
 	}
 			
 	@Test
@@ -95,5 +123,13 @@ public class OrderSubmitTest extends BaseTest{
 		// productCatalogue = landingPage.loginApplication("denish.knight@gmail.com", "Test@321");
 		MyOrderPage orderPage = landingPage.GoToMyOrders();
 		Assert.assertTrue(orderPage.VerifyOrderToDisplay(productName));
+	}
+	
+	@DataProvider
+	public Object[][] getData(){
+		return new Object[][] {
+			{"denish.knight@gmail.com", "Test@321", "ADIDAS ORIGINAL", "Singapore"},
+			{"jems.bond@gmail.com", "Test@123", "ZARA COAT 3", "India"},
+		};
 	}
 }
