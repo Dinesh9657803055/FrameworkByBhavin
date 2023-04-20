@@ -1,61 +1,48 @@
 package com.openxcell.OnlineShopping.testcases;
 
-import java.time.Duration;
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import com.openxcell.OnlineShopping.Base.BaseTest;
 import com.openxcell.OnlineShopping.PageObjects.CheckoutPage;
 import com.openxcell.OnlineShopping.PageObjects.ForgotPasswordPage;
-import com.openxcell.OnlineShopping.PageObjects.LandingPage;
 import com.openxcell.OnlineShopping.PageObjects.MyCartPage;
 import com.openxcell.OnlineShopping.PageObjects.ProductCataloguePage;
 import com.openxcell.OnlineShopping.PageObjects.SignupPage;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-public class OrderSubmitTest {
+public class OrderSubmitTest extends BaseTest{
 
 	public WebDriver driver;
-	public WebDriverWait wait;
+	
 	public String productName = "ADIDAS ORIGINAL";
 	public String countryName = "Singapore";
 	
-	public LandingPage landingPage;
 	public SignupPage signupPage;
 	public ForgotPasswordPage forgotPasswordPage;
 	public ProductCataloguePage productCatalogue;
 	public MyCartPage myCartPage;
 	public CheckoutPage checkoutPage;
 
-	public void objectInitilization() {
-		landingPage = new LandingPage(driver);
+	public void objectInitilization() {		
 		signupPage = new SignupPage(driver);
 		forgotPasswordPage = new ForgotPasswordPage(driver);
 	}
-	
-	@BeforeTest
-	public void navigateToLandingPage() {
-		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();		
-		System.out.println("Browser launched");
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-		driver.manage().window().maximize();
-		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		objectInitilization();
+			
+	@Test
+	public void VeriLoginWithInvalidCredential() throws IOException, InterruptedException {
+		landingPage.loginApplication("bhavin.dholakiya@openxcell.com", "Test@123");
+		Assert.assertEquals(landingPage.GetErrorMessage(), "Incorrect email or password.");
 	}
 
-	@Test
+	@Test (dependsOnMethods = "VeriLoginWithInvalidCredential")
 	public void VerifyAndSubmitLogin() {
-		landingPage.goTo();		
-		wait.until(ExpectedConditions.elementToBeClickable(landingPage.txtEmail));
+		//landingPage.goTo();	
 		productCatalogue = landingPage.loginApplication("denish.knight@gmail.com", "Test@321");
 		WebElement toastMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));		
 		Assert.assertTrue(toastMessage.isDisplayed(), "Login successfully!");
@@ -76,7 +63,7 @@ public class OrderSubmitTest {
 	}
 
 	@Test(dependsOnMethods = "GetProducesAndAddToCart")
-	public void VerifyCart() {
+	public void VerifyCart() { 
 		Boolean match = myCartPage.VerifyProuctToDisplay(productName);
 		Assert.assertTrue(match);
 	 	checkoutPage = myCartPage.GoToCheckoutPage();
@@ -99,10 +86,5 @@ public class OrderSubmitTest {
 		String ActualMessage = checkoutPage.getThankYouMessage();
 		Assert.assertTrue(ActualMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
 		Thread.sleep(2000);
-	}
-	
-	@AfterTest
-	public void tearDown() {
-		driver.quit();
 	}
 }

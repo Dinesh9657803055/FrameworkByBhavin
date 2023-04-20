@@ -11,18 +11,26 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+
+import com.openxcell.OnlineShopping.PageObjects.LandingPage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
 	
 	public WebDriver driver;
+	public WebDriverWait wait;
 	
-	public void initializeDriver() throws IOException {
+	public LandingPage landingPage;
+		
+	public WebDriver initializeDriver() throws IOException {
 		Properties prop = new Properties();
 		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"/src/main/java/com/openxcell/OnlineShopping/Resources/GlobalData.properties");
 		prop.load(fis);
-		String browserName = prop.getProperty("browser");
+		String browserName = "chrome";
 		
 		if (browserName.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();	
@@ -38,7 +46,21 @@ public class BaseTest {
 			options.addArguments("--remote-allow-origins=*");
 			driver = new EdgeDriver();
 		}
-		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));;
+		return driver;
+	}
+	
+	@BeforeTest
+	public void launchApplication() throws IOException {
+		driver = initializeDriver();
+		landingPage = new LandingPage(driver);
+		landingPage.goTo();
+	}
+	
+	@AfterTest
+	public void tearDown() {
+		driver.quit();
 	}
 }

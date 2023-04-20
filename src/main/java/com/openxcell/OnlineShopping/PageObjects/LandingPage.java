@@ -23,6 +23,9 @@ public class LandingPage extends AbstractComponents{
 	@FindBy(css = ".text-reset")
 	public WebElement linkSignup;
 	
+	@FindBy(css = "[class*='ng-trigger-flyInOut']")
+	public WebElement errorMessage;
+	
 	@FindBy(css = "[routerlink*='cart']")
 	public WebElement linkCartMenu;
 	
@@ -40,17 +43,20 @@ public class LandingPage extends AbstractComponents{
 	}
 	
 	public void setLoginEmail(String email) {
+		txtEmail.clear();
 		txtEmail.sendKeys(email);
 		System.out.println("Email address entered");
 	}
 	
 	public void setLoginPassword(String password) {
+		txtPassword.clear();
 		txtPassword.sendKeys(password);
 		System.out.println("Password entered");
 	}
 	
 	public ProductCataloguePage clickLoginButton() {
 		btnLogin.click();
+		waitForToastMessageToAppear();
 		System.out.println("Login button clicked");
 		ProductCataloguePage productCatalogue = new ProductCataloguePage(driver);
 		return productCatalogue;
@@ -59,6 +65,7 @@ public class LandingPage extends AbstractComponents{
 	public void goTo() {
 		driver.get("https://rahulshettyacademy.com/client/");
 		System.out.println("Redirected on Login form");
+		waitForElementToGetInteractable(txtEmail);
 	}
 	
 	public void GoToSignupForm() {
@@ -73,5 +80,10 @@ public class LandingPage extends AbstractComponents{
 		System.out.println("Cart menu clicked");
 		MyCartPage myCartPage = new MyCartPage(driver);
 		return myCartPage;
+	}
+	
+	public String GetErrorMessage() {
+		waitForToastMessageToAppear();
+		return errorMessage.getText();
 	}
 }
