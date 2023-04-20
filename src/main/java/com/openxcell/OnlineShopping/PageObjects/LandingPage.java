@@ -26,9 +26,6 @@ public class LandingPage extends AbstractComponents{
 	@FindBy(css = "[class*='ng-trigger-flyInOut']")
 	public WebElement errorMessage;
 	
-	@FindBy(css = "[routerlink*='cart']")
-	public WebElement linkCartMenu;
-	
 	public LandingPage(WebDriver driver) {
 		//initialization
 		super(driver);
@@ -71,15 +68,6 @@ public class LandingPage extends AbstractComponents{
 	public void GoToSignupForm() {
 		linkSignup.click();
 		System.out.println("Register link clicked");
-	}
-	
-	public MyCartPage GoToCart() throws InterruptedException {
-		waitForElementToGetInteractable(linkCartMenu);
-		Thread.sleep(1000);
-		linkCartMenu.click();
-		System.out.println("Cart menu clicked");
-		MyCartPage myCartPage = new MyCartPage(driver);
-		return myCartPage;
 	}
 	
 	public String GetErrorMessage() {

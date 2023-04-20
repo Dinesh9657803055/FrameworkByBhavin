@@ -44,10 +44,12 @@ public class CheckoutPage extends AbstractComponents {
 	
 	public void setCVVNumber(String cvvNumber) {
 		txtCVV.sendKeys(cvvNumber);
+		System.out.println("CVV number entered");
 	}
 	
 	public void setNameOnCard(String nameOnCard) {
 		txtNameOnCard.sendKeys(nameOnCard);
+		System.out.println("Name on Cart entered");
 	}
 	
 	public void selectCountry(String countryName) {
@@ -59,6 +61,7 @@ public class CheckoutPage extends AbstractComponents {
 	
 	public void clickPaceOrderButton() {
 		btnPlaceOrder.click();
+		System.out.println("Place Order button clicked");
 	}
 	
 	public String getThankYouMessage() {

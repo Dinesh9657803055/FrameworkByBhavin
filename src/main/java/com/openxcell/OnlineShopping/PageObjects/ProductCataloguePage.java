@@ -43,6 +43,7 @@ public class ProductCataloguePage extends AbstractComponents {
 	public void clickAddToCartButton(String productName) {
 		WebElement prod = getProductByName(productName);
 		prod.findElement(addToCart).click();
+		System.out.println("Item added in cart");
 	}
 
 }
