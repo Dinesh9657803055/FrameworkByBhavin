@@ -13,6 +13,7 @@ import com.openxcell.OnlineShopping.Base.BaseTest;
 import com.openxcell.OnlineShopping.PageObjects.CheckoutPage;
 import com.openxcell.OnlineShopping.PageObjects.ForgotPasswordPage;
 import com.openxcell.OnlineShopping.PageObjects.MyCartPage;
+import com.openxcell.OnlineShopping.PageObjects.MyOrderPage;
 import com.openxcell.OnlineShopping.PageObjects.ProductCataloguePage;
 import com.openxcell.OnlineShopping.PageObjects.SignupPage;
 
@@ -85,6 +86,14 @@ public class OrderSubmitTest extends BaseTest{
 				
 		String ActualMessage = checkoutPage.getThankYouMessage();
 		Assert.assertTrue(ActualMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
+		System.out.println("Order Submitted successfully!");
 		Thread.sleep(2000);
+	}
+	
+	@Test (dependsOnMethods = "DoCheckout")
+	public void OrderHistoryTest() {
+		// productCatalogue = landingPage.loginApplication("denish.knight@gmail.com", "Test@321");
+		MyOrderPage orderPage = landingPage.GoToMyOrders();
+		Assert.assertTrue(orderPage.VerifyOrderToDisplay(productName));
 	}
 }
