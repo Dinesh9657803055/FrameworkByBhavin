@@ -36,6 +36,9 @@ public class BaseTest {
 			WebDriverManager.chromedriver().setup();	
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("--remote-allow-origins=*");
+			options.addArguments("--start-maximized");
+		    options.addArguments("--always-authorize-plugins");
+			options.addArguments("disable-infobars"); 
 			driver = new ChromeDriver(options);
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
@@ -44,6 +47,9 @@ public class BaseTest {
 			WebDriverManager.edgedriver().setup();
 			EdgeOptions options = new EdgeOptions();
 			options.addArguments("--remote-allow-origins=*");
+			options.addArguments("--start-maximized");
+		    options.addArguments("--always-authorize-plugins");
+			options.addArguments("disable-infobars"); 
 			driver = new EdgeDriver();
 		}
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
