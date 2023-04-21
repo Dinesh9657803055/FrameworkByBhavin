@@ -35,7 +35,7 @@ public class ProductCataloguePage extends AbstractComponents {
 	
 	public WebElement getProductByName(String productName) {
 		WebElement prod = products.stream()
-				.filter(product -> product.findElement(By.cssSelector("b")).getText().equals("ADIDAS ORIGINAL"))
+				.filter(product -> product.findElement(By.cssSelector("b")).getText().equals(productName))
 				.findFirst().orElse(null);
 		return prod;		
 	}

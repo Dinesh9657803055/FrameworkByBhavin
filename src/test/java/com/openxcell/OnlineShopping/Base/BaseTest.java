@@ -1,7 +1,9 @@
 package com.openxcell.OnlineShopping.Base;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -12,7 +14,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
 import com.openxcell.OnlineShopping.PageObjects.LandingPage;
@@ -23,15 +27,14 @@ public class BaseTest {
 	
 	public WebDriver driver;
 	public WebDriverWait wait;
+	public String browserName = getProperty("browser");
+	public static Properties prop = new Properties();
+	public static InputStream input = null;
+	public static String value = "";
 	
 	public LandingPage landingPage;
 		
 	public WebDriver initializeDriver() throws IOException {
-		Properties prop = new Properties();
-		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"/src/main/java/com/openxcell/OnlineShopping/Resources/GlobalData.properties");
-		prop.load(fis);
-		String browserName = "chrome";
-		
 		if (browserName.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();	
 			ChromeOptions options = new ChromeOptions();
@@ -58,15 +61,32 @@ public class BaseTest {
 		return driver;
 	}
 	
-	@BeforeTest (alwaysRun = true)
+	@BeforeMethod(alwaysRun = true)
+	//@BeforeTest (alwaysRun = true)
 	public void launchApplication() throws IOException {
 		driver = initializeDriver();
 		landingPage = new LandingPage(driver);
 		landingPage.goTo();
 	}
 	
-	@AfterTest
+	@AfterMethod
 	public void tearDown() {
 		driver.quit();
 	}
+	
+	public String getProperty(String key)
+    {
+        try {
+            prop = new Properties();
+            String filePath = (System.getProperty("user.dir")+"\\src\\main\\java\\com\\openxcell\\OnlineShopping\\Resources\\GlobalData.properties");
+            File file = new File(filePath);
+            if (file.exists()){
+                prop.load(new FileInputStream(file));
+                value = prop.getProperty(key);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
 }
