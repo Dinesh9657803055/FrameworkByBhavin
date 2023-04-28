@@ -69,8 +69,9 @@ public class BaseTest {
 		landingPage.goTo();
 	}
 	
-	@AfterMethod
+	@AfterMethod (alwaysRun = true)
 	public void tearDown() {
+		System.out.println("Driver going to close.");
 		driver.quit();
 	}
 	

@@ -23,6 +23,9 @@ public class AbstractComponents {
 	@FindBy(css = "[routerlink*='myorders']")
 	public WebElement linkMyOrdersMenu;
 	
+	@FindBy(xpath = "//button[normalize-space()='Sign Out']")
+	public WebElement linkSignOut;
+	
 	public AbstractComponents(WebDriver driver) {
 		// TODO Auto-generated constructor stub
 		this.driver = driver;
@@ -60,5 +63,11 @@ public class AbstractComponents {
 		System.out.println("My Order Menu link is clicked");
 		MyOrderPage myOrderPage = new MyOrderPage(driver);
 		return myOrderPage;
+	}
+	
+	public void ClickSignOut() {
+		waitForElementToGetInteractable(linkSignOut);
+		linkSignOut.click();
+		System.out.println("User logout successfully!");
 	}
 }

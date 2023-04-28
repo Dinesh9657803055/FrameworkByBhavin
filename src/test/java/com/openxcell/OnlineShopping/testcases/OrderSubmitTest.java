@@ -1,6 +1,7 @@
 package com.openxcell.OnlineShopping.testcases;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -37,30 +38,31 @@ public class OrderSubmitTest extends BaseTest{
 	}
 	
 	@Test (dataProvider = "getData", groups = "smoke", enabled = true)
-	public void SubmitOrder(String email, String password, String productName, String countryName) throws InterruptedException {
-		productCatalogue = landingPage.loginApplication(email, password);
+	//public void SubmitOrder(String email, String password, String productName, String countryName) throws InterruptedException {
+	public void SubmitOrder(HashMap<String, String> input) throws InterruptedException {
+		productCatalogue = landingPage.loginApplication(input.get("email"), input.get("password"));
 		WebElement toastMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));		
 		Assert.assertTrue(toastMessage.isDisplayed(), "Login successfully!");
 		productCatalogue.getProductList();
-		productCatalogue.getProductByName(productName);
+		productCatalogue.getProductByName(input.get("productName"));
 		
-		productCatalogue.clickAddToCartButton(productName);
+		productCatalogue.clickAddToCartButton(input.get("productName"));
 		System.out.println("Item added in Cart");
-
 		productCatalogue.waitForLoadingToDisappear();
 		productCatalogue.waitForToastMessageToAppear();			
 		
 	 	myCartPage = landingPage.GoToCart();
-	 	Boolean match = myCartPage.VerifyProuctToDisplay(productName);
+	 	Boolean match = myCartPage.VerifyProuctToDisplay(input.get("productName"));
 		Assert.assertTrue(match);
 	 	checkoutPage = myCartPage.GoToCheckoutPage();
-	 	checkoutPage.doCheckout("544", "Denish Knight", countryName);
+	 	checkoutPage.doCheckout("544", "Denish Knight", input.get("countryName"));
 	 	String ActualMessage = checkoutPage.getThankYouMessage();
 		Assert.assertTrue(ActualMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
 		System.out.println("Order Submitted successfully!");
 		Thread.sleep(2000);
 		MyOrderPage orderPage = landingPage.GoToMyOrders();
-		Assert.assertTrue(orderPage.VerifyOrderToDisplay(productName));
+		Assert.assertTrue(orderPage.VerifyOrderToDisplay(input.get("productName")));
+		landingPage.ClickSignOut();
 	}
 			
 	@Test
@@ -127,9 +129,25 @@ public class OrderSubmitTest extends BaseTest{
 	
 	@DataProvider
 	public Object[][] getData(){
+		HashMap<Object,Object> map = new HashMap<Object,Object>();
+		map.put("email", "denish.knight@gmail.com");
+		map.put("password", "Test@321");
+		map.put("productName", "ADIDAS ORIGINAL");
+		map.put("countryName", "Singapore");
+		
+		HashMap<Object,Object> map1 = new HashMap<Object,Object>();
+		map1.put("email", "jems.bond@gmail.com");
+		map1.put("password", "Test@123");
+		map1.put("productName", "ZARA COAT 3");
+		map1.put("countryName", "India");
+		
 		return new Object[][] {
-			{"denish.knight@gmail.com", "Test@321", "ADIDAS ORIGINAL", "Singapore"},
-			{"jems.bond@gmail.com", "Test@123", "ZARA COAT 3", "India"},
+			{map}, {map1}
 		};
+		/*
+		 * return new Object[][] { {"denish.knight@gmail.com", "Test@321",
+		 * "ADIDAS ORIGINAL", "Singapore"}, {"jems.bond@gmail.com", "Test@123",
+		 * "ZARA COAT 3", "India"}, };
+		 */
 	}
 }
