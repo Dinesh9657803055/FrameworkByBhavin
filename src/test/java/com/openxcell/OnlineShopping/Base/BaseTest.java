@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,6 +23,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.openxcell.OnlineShopping.FileReader.FileReader;
 import com.openxcell.OnlineShopping.PageObjects.LandingPage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -33,6 +40,7 @@ public class BaseTest {
 	public static String value = "";
 	
 	public LandingPage landingPage;
+	public FileReader fileReader = new FileReader();
 		
 	public WebDriver initializeDriver() throws IOException {
 		if (browserName.equalsIgnoreCase("chrome")) {
@@ -90,4 +98,6 @@ public class BaseTest {
         }
         return value;
     }
+	
+	
 }

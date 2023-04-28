@@ -1,0 +1,14 @@
+[
+	{
+		"email" : "denish.knight@gmail.com",
+		"password" : "Test@321",
+		"productName" : "ADIDAS ORIGINAL",
+		"countryName" : "Singapore"
+	},
+	{
+		"email" : "jems.bond@gmail.com",
+		"password" : "Test@123",
+		"productName" : "ZARA COAT 3",
+		"countryName" : "India"
+	}
+]
