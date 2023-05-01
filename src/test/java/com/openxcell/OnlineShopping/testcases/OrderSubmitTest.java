@@ -13,7 +13,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.openxcell.OnlineShopping.Base.BaseTest;
-import com.openxcell.OnlineShopping.FileReader.FileReader;
 import com.openxcell.OnlineShopping.PageObjects.CheckoutPage;
 import com.openxcell.OnlineShopping.PageObjects.ForgotPasswordPage;
 import com.openxcell.OnlineShopping.PageObjects.MyCartPage;
@@ -129,8 +128,7 @@ public class OrderSubmitTest extends BaseTest {
 
 	@Test(dependsOnMethods = "DoCheckout")
 	public void OrderHistoryTest() {
-		// productCatalogue = landingPage.loginApplication("denish.knight@gmail.com",
-		// "Test@321");
+		// productCatalogue = landingPage.loginApplication("denish.knight@gmail.com", "Test@321");
 		MyOrderPage orderPage = landingPage.GoToMyOrders();
 		Assert.assertTrue(orderPage.VerifyOrderToDisplay(productName));
 	}

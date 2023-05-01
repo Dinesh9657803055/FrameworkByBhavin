@@ -1,12 +1,14 @@
 package com.openxcell.OnlineShopping.Base;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -59,6 +61,14 @@ public class BaseTest {
 		driver.manage().window().maximize();
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		return driver;
+	}
+	
+	public File getScreenshot(String testCaseName) throws IOException {
+		TakesScreenshot ts = (TakesScreenshot)driver;
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		File destinationFile = new File(System.getProperty("user.dir")+ "//report//"+testCaseName+".png");
+		FileUtils.copyFile(source, destinationFile);
+		return destinationFile;
 	}
 	
 	@BeforeMethod(alwaysRun = true)
