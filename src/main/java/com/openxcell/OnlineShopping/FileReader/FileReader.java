@@ -1,10 +1,13 @@
 package com.openxcell.OnlineShopping.FileReader;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 
@@ -12,6 +15,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FileReader {
+	
+	public static Properties prop = new Properties();
+	public static InputStream input = null;
+	public static String value = "";
 	
 	public List<HashMap<String, String>> getJsonDataToMap() throws IOException {
 		String filePath = (System.getProperty("user.dir")+"\\src\\main\\java\\com\\openxcell\\OnlineShopping\\Resources\\PurchaseOrder.json");
@@ -28,4 +35,20 @@ public class FileReader {
 		//So the data variable to store all the json data in to the HashMap format
 		return data;
 	}
+	
+	public String getProperty(String key)
+    {
+        try {
+            prop = new Properties();
+            String filePath = (System.getProperty("user.dir")+"\\src\\main\\java\\com\\openxcell\\OnlineShopping\\Resources\\GlobalData.properties");
+            File file = new File(filePath);
+            if (file.exists()){
+                prop.load(new FileInputStream(file));
+                value = prop.getProperty(key);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
 }

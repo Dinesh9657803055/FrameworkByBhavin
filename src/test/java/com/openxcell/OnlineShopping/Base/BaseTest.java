@@ -4,13 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,12 +15,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openxcell.OnlineShopping.FileReader.FileReader;
 import com.openxcell.OnlineShopping.PageObjects.LandingPage;
 
@@ -34,13 +25,14 @@ public class BaseTest {
 	
 	public WebDriver driver;
 	public WebDriverWait wait;
-	public String browserName = getProperty("browser");
+	
 	public static Properties prop = new Properties();
 	public static InputStream input = null;
 	public static String value = "";
 	
 	public LandingPage landingPage;
 	public FileReader fileReader = new FileReader();
+	public String browserName = fileReader.getProperty("browser");
 		
 	public WebDriver initializeDriver() throws IOException {
 		if (browserName.equalsIgnoreCase("chrome")) {
@@ -81,23 +73,5 @@ public class BaseTest {
 	public void tearDown() {
 		System.out.println("Driver going to close.");
 		driver.quit();
-	}
-	
-	public String getProperty(String key)
-    {
-        try {
-            prop = new Properties();
-            String filePath = (System.getProperty("user.dir")+"\\src\\main\\java\\com\\openxcell\\OnlineShopping\\Resources\\GlobalData.properties");
-            File file = new File(filePath);
-            if (file.exists()){
-                prop.load(new FileInputStream(file));
-                value = prop.getProperty(key);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return value;
-    }
-	
-	
+	}	
 }
