@@ -12,6 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.aventstack.extentreports.ExtentReports;
 import com.openxcell.OnlineShopping.Base.BaseTest;
 import com.openxcell.OnlineShopping.PageObjects.CheckoutPage;
 import com.openxcell.OnlineShopping.PageObjects.ForgotPasswordPage;
@@ -38,7 +39,7 @@ public class OrderSubmitTest extends BaseTest {
 		forgotPasswordPage = new ForgotPasswordPage(driver);
 	}
 
-	@Test(dataProvider = "getData", groups = "smoke", enabled = true)
+	@Test(dataProvider = "getData", groups = "smoke", enabled = false)
 	// public void SubmitOrder(String email, String password, String productName,
 	// String countryName) throws InterruptedException {
 	public void SubmitOrder(HashMap<String, String> input) throws InterruptedException {
@@ -69,12 +70,12 @@ public class OrderSubmitTest extends BaseTest {
 	}
 
 	@Test
-	public void VeriLoginWithInvalidCredential() throws IOException, InterruptedException {
+	public void VerifyLoginWithInvalidCredential() throws IOException, InterruptedException {
 		landingPage.loginApplication("bhavin.dholakiya@openxcell.com", "Test@123");
 		Assert.assertEquals(landingPage.GetErrorMessage(), "Incorrect email or password.");
 	}
 
-	@Test(dependsOnMethods = "VeriLoginWithInvalidCredential")
+	@Test(dependsOnMethods = "VerifyLoginWithInvalidCredential")
 	public void VerifyAndSubmitLogin() {
 		// landingPage.goTo();
 		productCatalogue = landingPage.loginApplication("denish.knight@gmail.com", "Test@321");

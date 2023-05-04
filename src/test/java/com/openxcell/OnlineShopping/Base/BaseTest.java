@@ -16,6 +16,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import com.openxcell.OnlineShopping.FileReader.FileReader;
@@ -63,12 +64,13 @@ public class BaseTest {
 		return driver;
 	}
 	
-	public File getScreenshot(String testCaseName) throws IOException {
+	public String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
 		TakesScreenshot ts = (TakesScreenshot)driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
-		File destinationFile = new File(System.getProperty("user.dir")+ "//report//"+testCaseName+".png");
+		String filePath = System.getProperty("user.dir")+ "//report//"+testCaseName+".png";
+		File destinationFile = new File(filePath);
 		FileUtils.copyFile(source, destinationFile);
-		return destinationFile;
+		return filePath;
 	}
 	
 	@BeforeMethod(alwaysRun = true)

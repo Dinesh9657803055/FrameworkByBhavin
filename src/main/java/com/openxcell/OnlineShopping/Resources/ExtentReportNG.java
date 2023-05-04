@@ -11,7 +11,7 @@ public class ExtentReportNG {
 	
 	static DateFormat dateFormat  = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ssaa");
 	static DateFormat reportFolder = new SimpleDateFormat("dd-MMM-yyyy");
-	static String ExtentReportName = System.getProperty("user.home")+"//AutomationTemp//Reports//"+reportFolder.format(new Date())+"//AutomationReport" + "_"  + dateFormat.format(new Date())+".html";	
+	static String ExtentReportName = System.getProperty("user.home")+"\\AutomationTemp\\Reports\\"+reportFolder.format(new Date())+"\\AutomationReport" + "_"  + dateFormat.format(new Date())+".html";	
 
 	public static ExtentReports getReportObject() {
 		ExtentSparkReporter reporter = new ExtentSparkReporter(ExtentReportName);
