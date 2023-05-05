@@ -13,16 +13,20 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class UserSignup {
 
 	public static void main(String[] args) throws InterruptedException {
-		// TODO Auto-generated method stub
+		// doSignup();
+		PrintStringInReverse();
+	}
+
+	public static void doSignup() throws InterruptedException {
 		WebDriverManager.chromedriver().setup();
 		WebDriver driver = new ChromeDriver();
-		
+
 		/*
 		 * WebDriverManager.firefoxdriver().setup(); WebDriver driver = new
 		 * FirefoxDriver();
 		 */
 		//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		
+
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.get("https://rahulshettyacademy.com/client/");
 		driver.manage().window().maximize();
@@ -31,7 +35,7 @@ public class UserSignup {
 		driver.findElement(By.cssSelector("#lastName")).sendKeys("Knight");
 		driver.findElement(By.cssSelector("#userEmail")).sendKeys("denish.knight@gmail.com");
 		driver.findElement(By.cssSelector("#userMobile")).sendKeys("8596748536");
-						
+
 		Select drpOccupation = new Select(driver.findElement(By.xpath("(//div[@class='form-group col-md-6'] //select[@class='custom-select ng-untouched ng-pristine ng-valid'])")));
 		drpOccupation.selectByVisibleText("Engineer");
 
@@ -47,4 +51,14 @@ public class UserSignup {
 		driver.quit();
 	}
 
+	public static void PrintStringInReverse(){
+		String s = "Java Programming";
+		int len = s.length();
+		String rev = "";
+
+		for(int i = len-1; i>= 0 ; i--){
+			rev = rev + s.charAt(i);
+		}
+		System.out.println("Revers of "+s+ " is "+rev);
+	}
 }
