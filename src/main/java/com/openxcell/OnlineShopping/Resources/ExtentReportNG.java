@@ -24,7 +24,6 @@ public class ExtentReportNG {
         extent.attachReporter(reporter);
         extent.setSystemInfo("QA Name: ", "Bhavin Dholakiya");
         extent.setSystemInfo("Environment: ", "Production");
-        extent.createTest(ExtentReportName);
         return extent;
 	}
 }

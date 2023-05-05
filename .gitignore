@@ -1,9 +1,11 @@
 ### Eclipse ###
 .metadata
+.idea/
 bin/
 tmp/
 target/
 test-output/
+report
 *.tmp
 *.bak
 *.swp
