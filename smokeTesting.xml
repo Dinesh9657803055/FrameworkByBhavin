@@ -5,7 +5,8 @@
 		<listener class-name="com.openxcell.OnlineShopping.Base.Listeners" />
 	</listeners>
 	
-    <test name="Smoke Testing">
+    <test name="Smoke Testing" parallel="false">
+    <parameter name="browser" value="chrome"></parameter>    
     <groups>
     	<run>
     		<include name="smoke" />
