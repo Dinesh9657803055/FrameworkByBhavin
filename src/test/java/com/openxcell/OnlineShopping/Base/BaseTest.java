@@ -19,6 +19,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+
 import com.openxcell.OnlineShopping.FileReader.FileReader;
 import com.openxcell.OnlineShopping.PageObjects.LandingPage;
 
@@ -35,9 +37,9 @@ public class BaseTest {
 	
 	public LandingPage landingPage;
 	public FileReader fileReader = new FileReader();
-	public String browserName = fileReader.getProperty("browser");
+	//public String browserName = fileReader.getProperty("browser");
 		
-	public WebDriver initializeDriver() throws IOException {
+	public WebDriver initializeDriver(String browserName) throws IOException {
 		if (browserName.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();	
 			ChromeOptions options = new ChromeOptions();
@@ -74,9 +76,10 @@ public class BaseTest {
 	}
 	
 	@BeforeMethod(alwaysRun = true)
-	//@BeforeTest (alwaysRun = true)
-	public void launchApplication() throws IOException {
-		driver = initializeDriver();
+	@Parameters("browser")
+	//@BeforeTest (alwaysRun = true)	
+	public void launchApplication(String browser) throws IOException {
+		driver = initializeDriver(browser);
 		landingPage = new LandingPage(driver);
 		landingPage.goTo();
 	}
