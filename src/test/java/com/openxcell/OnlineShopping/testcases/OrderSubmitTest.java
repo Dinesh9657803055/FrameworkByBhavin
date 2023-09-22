@@ -56,8 +56,8 @@ public class OrderSubmitTest extends BaseTest {
 		productCatalogue.waitForLoadingToDisappear();
 		productCatalogue.waitForToastMessageToAppear();
 		
-		myCartPage = landingPage.GoToCart(); Boolean match =
-		myCartPage.VerifyProuctToDisplay(input.get("productName"));
+		myCartPage = landingPage.GoToCart();
+		Boolean match = myCartPage.VerifyProuctToDisplay(input.get("productName"));
 		Assert.assertTrue(match); checkoutPage = myCartPage.GoToCheckoutPage();
 		checkoutPage.doCheckout("544", "Denish Knight", input.get("countryName"));
 		String ActualMessage = checkoutPage.getThankYouMessage();

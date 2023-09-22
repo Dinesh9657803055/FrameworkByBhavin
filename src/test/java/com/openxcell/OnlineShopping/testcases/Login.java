@@ -14,8 +14,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class Login {
 
 	public WebDriver driver;
@@ -24,8 +22,7 @@ public class Login {
 	public String countryName = "Singapore";
 
 	@BeforeTest
-	public void navigateToForgotPasswordForm() {
-		WebDriverManager.chromedriver().setup();
+	public void navigateToForgotPasswordForm() {		
 		driver = new ChromeDriver();
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		System.out.println("Browser launched");

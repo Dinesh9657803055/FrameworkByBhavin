@@ -8,8 +8,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class UserSignup {
 
 	public static void main(String[] args) throws InterruptedException {
@@ -18,7 +16,6 @@ public class UserSignup {
 	}
 
 	public static void doSignup() throws InterruptedException {
-		WebDriverManager.chromedriver().setup();
 		WebDriver driver = new ChromeDriver();
 
 		/*

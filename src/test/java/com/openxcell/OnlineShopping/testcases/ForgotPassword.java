@@ -9,15 +9,12 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class ForgotPassword {
 
 	WebDriver driver; 
 	
 	@BeforeTest
 	public void navigateToForgotPasswordForm() {
-		WebDriverManager.firefoxdriver().setup();
 		driver = new FirefoxDriver();
 		//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		System.out.println("Browser launched");

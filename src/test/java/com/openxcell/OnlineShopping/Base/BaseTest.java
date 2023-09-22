@@ -24,40 +24,35 @@ import org.testng.annotations.Parameters;
 import com.openxcell.OnlineShopping.FileReader.FileReader;
 import com.openxcell.OnlineShopping.PageObjects.LandingPage;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class BaseTest {
-	
+
 	public WebDriver driver;
 	public WebDriverWait wait;
-	
+
 	public static Properties prop = new Properties();
 	public static InputStream input = null;
 	public static String value = "";
-	
+
 	public LandingPage landingPage;
 	public FileReader fileReader = new FileReader();
-	//public String browserName = fileReader.getProperty("browser");
-		
+	// public String browserName = fileReader.getProperty("browser");
+
 	public WebDriver initializeDriver(String browserName) throws IOException {
 		if (browserName.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();	
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("--remote-allow-origins=*");
 			options.addArguments("--start-maximized");
-		    options.addArguments("--always-authorize-plugins");
-			options.addArguments("disable-infobars"); 
+			options.addArguments("--always-authorize-plugins");
+			options.addArguments("disable-infobars");
 			driver = new ChromeDriver(options);
 		} else if (browserName.equalsIgnoreCase("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
 		} else if (browserName.equalsIgnoreCase("edge")) {
-			WebDriverManager.edgedriver().setup();
 			EdgeOptions options = new EdgeOptions();
 			options.addArguments("--remote-allow-origins=*");
 			options.addArguments("--start-maximized");
-		    options.addArguments("--always-authorize-plugins");
-			options.addArguments("disable-infobars"); 
+			options.addArguments("--always-authorize-plugins");
+			options.addArguments("disable-infobars");
 			driver = new EdgeDriver();
 		}
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -65,28 +60,28 @@ public class BaseTest {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		return driver;
 	}
-	
+
 	public String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
-		TakesScreenshot ts = (TakesScreenshot)driver;
+		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
-		String filePath = System.getProperty("user.dir")+ "//report//"+testCaseName+".png";
+		String filePath = System.getProperty("user.dir") + "//report//" + testCaseName + ".png";
 		File destinationFile = new File(filePath);
 		FileUtils.copyFile(source, destinationFile);
 		return filePath;
 	}
-	
+
 	@BeforeMethod(alwaysRun = true)
 	@Parameters("browser")
-	//@BeforeTest (alwaysRun = true)	
+	// @BeforeTest (alwaysRun = true)
 	public void launchApplication(String browser) throws IOException {
 		driver = initializeDriver(browser);
 		landingPage = new LandingPage(driver);
 		landingPage.goTo();
 	}
-	
-	@AfterMethod (alwaysRun = true)
+
+	@AfterMethod(alwaysRun = true)
 	public void tearDown() {
 		System.out.println("Driver going to close.");
 		driver.quit();
-	}	
+	}
 }
