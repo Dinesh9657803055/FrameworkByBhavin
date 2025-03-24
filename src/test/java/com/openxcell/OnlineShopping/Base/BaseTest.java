@@ -44,6 +44,7 @@ public class BaseTest {
 			options.addArguments("--start-maximized");
 			options.addArguments("--always-authorize-plugins");
 			options.addArguments("disable-infobars");
+			//added 47 comment
 			driver = new ChromeDriver(options);
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			driver = new FirefoxDriver();
