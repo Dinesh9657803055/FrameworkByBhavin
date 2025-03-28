@@ -44,6 +44,8 @@ public class Login {
 		System.out.println("Login button clicked");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));
 		Assert.assertTrue(true, "Login successfully!");
+		
+		
 
 //		WebElement toastMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));
 //		String ActualMessage = toastMessage.findElement(By.cssSelector("div div[role='alert']")).getText();
